@@ -21,7 +21,7 @@ class PaymentsFilterDTO
             dateFrom: $request->query('date_from'),
             dateTo: $request->query('date_to'),
             status: $request->query('status'),
-            boRectify: $request->query('bo_rectify'),
+            boRectify: filter_var($request->query('bo_active'), FILTER_VALIDATE_BOOLEAN),
         );
     }
 }

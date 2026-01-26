@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\DTOs\PaymentsFilterDTO;
 use App\DTOs\PaymentsInputDTO;
 use App\Http\Requests\PaymentsFormRequest;
-use App\Models\Payment;
 use App\Services\PaymentsService;
 use Illuminate\Http\Request;
 
@@ -18,17 +17,17 @@ class PaymentsController extends Controller
     public function index(Request $request)
     {
         $paymentsFilter = PaymentsFilterDTO::fromRequest($request);
-        $payment = $this->service->listByUser($request->user()->id, $paymentsFilter);
+        $payments = $this->service->listByUser($request->user()->id, $paymentsFilter);
 
-        return response()->json(['data' => $payment->toArray()], 201);
+        return response()->json(['data' => $payments], 200);
     }
 
     public function indexAdmin(Request $request)
     {
         $paymentsFilter = PaymentsFilterDTO::fromRequest($request);
-        $payment = $this->service->list($paymentsFilter);
+        $payments = $this->service->list($paymentsFilter);
 
-        return response()->json(['data' => $payment->toArray()], 201);
+        return response()->json(['data' => $payments], 200);
     }
 
     public function store(PaymentsFormRequest $request)

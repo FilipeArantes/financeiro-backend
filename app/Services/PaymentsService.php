@@ -19,7 +19,7 @@ class PaymentsService
     {
         $query = Payment::query()
             ->where('id_user', $userId)
-            ->where('bo_rectify', true);
+            ->where('bo_active', true);
 
         if ($paymentsFilter->dateFrom) {
             $query->where('payment_date', '>=', $paymentsFilter->dateFrom);
@@ -37,7 +37,7 @@ class PaymentsService
         $query = Payment::query();
 
         if ($paymentsFilter->boRectify) {
-            $query->where('bo_rectify', $paymentsFilter->boRectify);
+            $query->where('bo_active', $paymentsFilter->boRectify);
         }
 
         if ($paymentsFilter->idUser) {

@@ -16,7 +16,7 @@ class PaymentsRepository
     {
         return Payment::where('id', $id)
             ->update([
-                'bo_rectify' => false,
+                'bo_active' => false,
                 'status' => 'retificado',
             ]);
     }
