@@ -17,7 +17,7 @@ class PaymentsFormRequest extends FormRequest
         return [
             'id_user' => ['integer', 'required', 'exists:users,id'],
             'value' => ['required', 'decimal:2', 'min:1'],
-            'payment_date' => ['required', 'date'],
+            'payment_date' => ['required', 'date', 'after_or_equal:' . today()->subDays(7)->toDateString()],
             'description' => ['sometimes', 'string'],
             'status' => ['sometimes', 'string', 'in:pago,cancelado'],
         ];

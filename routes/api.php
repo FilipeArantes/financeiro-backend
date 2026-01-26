@@ -10,4 +10,10 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/register', [RegisterController::class, 'store']);
-Route::apiResource('/payments', PaymentsController::class);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/payments', PaymentsController::class);
+    Route::post('/payments/{payment}/rectify', [PaymentsController::class, 'rectify']);
+    Route::get('/admin/payments', [PaymentsController::class, 'indexAdmin'])
+        ->middleware('ability:admin');
+});

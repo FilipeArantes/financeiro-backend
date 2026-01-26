@@ -11,4 +11,13 @@ class PaymentsRepository
     {
         return Payment::create($payment->toArray());
     }
+
+    public function deactivate(int $id): int
+    {
+        return Payment::where('id', $id)
+            ->update([
+                'bo_rectify' => false,
+                'status' => 'retificado',
+            ]);
+    }
 }

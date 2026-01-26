@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('payment_date');
             $table->text('description')->nullable();
             $table->string('status')->default('pago');
+            $table->boolean('bo_rectify')->default(true);
             $table->timestamps();
         });
     }
