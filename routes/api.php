@@ -12,7 +12,8 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [RegisterController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('/payments', PaymentsController::class);
+    Route::apiResource('/payments', PaymentsController::class)
+        ->only(['index', 'store', 'show']);
     Route::post('/payments/{payment}/rectify', [PaymentsController::class, 'rectify']);
     Route::get('/admin/payments', [PaymentsController::class, 'indexAdmin'])
         ->middleware('ability:admin');

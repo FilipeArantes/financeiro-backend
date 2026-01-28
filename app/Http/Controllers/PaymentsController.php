@@ -35,7 +35,11 @@ class PaymentsController extends Controller
         $payment = PaymentsInputDTO::fromRequest($request);
         $payment = $this->service->insert($payment);
 
-        return response()->json(['data' => $payment->toArray()], 201);
+        if (!$payment) {
+            return response()->json(['message' => 'Pagamento não encontrado'], 404);
+        }
+
+        return response()->json(['data' => $payment], 201);
     }
 
     public function rectify(int $payment, PaymentsFormRequest $request)
@@ -43,6 +47,17 @@ class PaymentsController extends Controller
         $newPayment = PaymentsInputDTO::fromRequest($request);
         $payment = $this->service->rectify($newPayment, $payment);
 
-        return response()->json(['data' => $payment->toArray()], 201);
+        return response()->json(['data' => $payment], 201);
+    }
+
+    public function show(Request $request, int $payment)
+    {
+        $payment = $this->service->detail($request->user()->id, $payment);
+
+        if (!$payment) {
+            return response()->json(['message' => 'Pagamento não encontrado'], 404);
+        }
+
+        return response()->json(['data' => $payment], 200);
     }
 }

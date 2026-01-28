@@ -63,7 +63,7 @@ class PaymentsService
     {
         $payment = $this->repository->insert($payment);
 
-        return new PaymentsOutputDTO($payment);
+        return $payment ? new PaymentsOutputDTO($payment) : null;
     }
 
     public function rectify(PaymentsInputDTO $newPayment, int $idOldPayment): PaymentsOutputDTO
@@ -72,5 +72,14 @@ class PaymentsService
         $payment = $this->repository->insert($newPayment);
 
         return new PaymentsOutputDTO($payment);
+    }
+
+    public function detail(int $userId, int $paymentId): ?PaymentsOutputDTO
+    {
+        $payment = Payment::where('id', $paymentId)
+            ->where('id_user', $userId)
+            ->first();
+
+        return $payment ? new PaymentsOutputDTO($payment) : null;
     }
 }
