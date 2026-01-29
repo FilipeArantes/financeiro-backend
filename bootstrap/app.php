@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ErrorHandling;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'ability' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
             'abilities' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
         ]);
+        $middleware->append(ErrorHandling::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException $e) {
