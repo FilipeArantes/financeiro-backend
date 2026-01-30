@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTOs\UserInputDTO;
 use App\DTOs\UserOutputDTO;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
@@ -16,7 +17,8 @@ class AuthService
     {
         $user = $this->userRepository->insert($user);
         $user->tokens()->delete();
-        $token = $user->createToken('auth_token');
+        $token = $user->createToken('auth_token', [$user->role]);
+        Auth::login($user);
 
         return new UserOutputDTO($user, $token->plainTextToken);
     }
