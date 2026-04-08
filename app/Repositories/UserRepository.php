@@ -11,4 +11,9 @@ class UserRepository
     {
         return User::create($user->toArray());
     }
+
+    public function findByEmail(string $email): ?User
+    {
+        return User::where('email', $email)->first();
+    }
 }
