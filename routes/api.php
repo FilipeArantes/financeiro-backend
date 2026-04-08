@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/login', [LoginController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/payments', PaymentsController::class)
