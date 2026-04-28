@@ -1,0 +1,252 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-04-27",
+  "__export_source": "financeiro-backend",
+  "resources": [
+    {
+      "_id": "env_financeiro",
+      "_type": "environment",
+      "name": "Financeiro Backend",
+      "data": {
+        "base_url": "http://localhost:8000/api",
+        "token": ""
+      }
+    },
+    {
+      "_id": "wrk_financeiro",
+      "_type": "workspace",
+      "name": "Financeiro Backend",
+      "description": "Coleção completa de rotas da API financeiro-backend"
+    },
+    {
+      "_id": "fld_auth",
+      "_type": "request_group",
+      "name": "Auth",
+      "parentId": "wrk_financeiro"
+    },
+    {
+      "_id": "fld_payments",
+      "_type": "request_group",
+      "name": "Payments",
+      "parentId": "wrk_financeiro"
+    },
+    {
+      "_id": "fld_complaints",
+      "_type": "request_group",
+      "name": "Complaints",
+      "parentId": "wrk_financeiro"
+    },
+    {
+      "_id": "fld_admin",
+      "_type": "request_group",
+      "name": "Admin",
+      "parentId": "wrk_financeiro"
+    },
+    {
+      "_id": "req_register",
+      "_type": "request",
+      "name": "Register",
+      "parentId": "fld_auth",
+      "method": "POST",
+      "url": "{{ _.base_url }}/register",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Filipe Arantes\",\n  \"email\": \"filipe@financeiro.com\",\n  \"password\": \"Senha@1234\",\n  \"password_confirmation\": \"Senha@1234\"\n}"
+      }
+    },
+    {
+      "_id": "req_login",
+      "_type": "request",
+      "name": "Login",
+      "parentId": "fld_auth",
+      "method": "POST",
+      "url": "{{ _.base_url }}/login",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"filipe@financeiro.com\",\n  \"password\": \"Senha@1234\"\n}"
+      }
+    },
+    {
+      "_id": "req_user",
+      "_type": "request",
+      "name": "Usuário autenticado",
+      "parentId": "fld_auth",
+      "method": "GET",
+      "url": "{{ _.base_url }}/user",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {}
+    },
+    {
+      "_id": "req_payments_index",
+      "_type": "request",
+      "name": "Listar pagamentos",
+      "parentId": "fld_payments",
+      "method": "GET",
+      "url": "{{ _.base_url }}/payments",
+      "parameters": [
+        { "name": "date_from", "value": "2026-04-01" },
+        { "name": "date_to", "value": "2026-04-30" }
+      ],
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {}
+    },
+    {
+      "_id": "req_payments_store",
+      "_type": "request",
+      "name": "Criar pagamento",
+      "parentId": "fld_payments",
+      "method": "POST",
+      "url": "{{ _.base_url }}/payments",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_user\": 1,\n  \"value\": \"150.00\",\n  \"payment_date\": \"2026-04-23\",\n  \"description\": \"Pagamento de teste\",\n  \"status\": \"pago\"\n}"
+      }
+    },
+    {
+      "_id": "req_payments_show",
+      "_type": "request",
+      "name": "Detalhar pagamento",
+      "parentId": "fld_payments",
+      "method": "GET",
+      "url": "{{ _.base_url }}/payments/1",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {}
+    },
+    {
+      "_id": "req_payments_rectify",
+      "_type": "request",
+      "name": "Retificar pagamento",
+      "parentId": "fld_payments",
+      "method": "POST",
+      "url": "{{ _.base_url }}/payments/1/rectify",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_user\": 1,\n  \"value\": \"200.00\",\n  \"payment_date\": \"2026-04-23\",\n  \"description\": \"Pagamento retificado\",\n  \"status\": \"pago\"\n}"
+      }
+    },
+    {
+      "_id": "req_complaints_store",
+      "_type": "request",
+      "name": "Criar reclamação",
+      "parentId": "fld_complaints",
+      "method": "POST",
+      "url": "{{ _.base_url }}/complaints",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_payment\": 1,\n  \"title\": \"Cobrança indevida\",\n  \"description\": \"Fui cobrado duas vezes pelo mesmo pagamento.\"\n}"
+      }
+    },
+    {
+      "_id": "req_complaints_index",
+      "_type": "request",
+      "name": "Listar minhas reclamações",
+      "parentId": "fld_complaints",
+      "method": "GET",
+      "url": "{{ _.base_url }}/complaints",
+      "parameters": [
+        { "name": "status", "value": "aberta" }
+      ],
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {}
+    },
+    {
+      "_id": "req_complaints_show",
+      "_type": "request",
+      "name": "Detalhar reclamação",
+      "parentId": "fld_complaints",
+      "method": "GET",
+      "url": "{{ _.base_url }}/complaints/1",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {}
+    },
+    {
+      "_id": "req_admin_payments",
+      "_type": "request",
+      "name": "Listar todos os pagamentos (admin)",
+      "parentId": "fld_admin",
+      "method": "GET",
+      "url": "{{ _.base_url }}/admin/payments",
+      "parameters": [
+        { "name": "id_user", "value": "1" },
+        { "name": "date_from", "value": "2026-04-01" },
+        { "name": "date_to", "value": "2026-04-30" },
+        { "name": "status", "value": "pago" },
+        { "name": "bo_active", "value": "true" }
+      ],
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {}
+    },
+    {
+      "_id": "req_admin_complaints_index",
+      "_type": "request",
+      "name": "Listar todas as reclamações (admin)",
+      "parentId": "fld_admin",
+      "method": "GET",
+      "url": "{{ _.base_url }}/admin/complaints",
+      "parameters": [
+        { "name": "id_user", "value": "1" },
+        { "name": "status", "value": "aberta" }
+      ],
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {}
+    },
+    {
+      "_id": "req_admin_complaints_resolve",
+      "_type": "request",
+      "name": "Resolver reclamação (admin)",
+      "parentId": "fld_admin",
+      "method": "POST",
+      "url": "{{ _.base_url }}/admin/complaints/1/resolve",
+      "headers": [
+        { "name": "Accept", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {}
+    }
+  ]
+}
