@@ -4,6 +4,7 @@ use App\Http\Controllers\ComplaintsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ->only(['index', 'store', 'show']);
     Route::post('/payments/{payment}/rectify', [PaymentsController::class, 'rectify']);
     Route::get('/admin/payments', [PaymentsController::class, 'indexAdmin'])
+        ->middleware('ability:admin');
+    Route::apiResource('/users', UserController::class)
+        ->only(['index', 'show', 'update'])
         ->middleware('ability:admin');
 });
