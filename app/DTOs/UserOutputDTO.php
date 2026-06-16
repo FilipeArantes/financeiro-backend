@@ -10,9 +10,9 @@ class UserOutputDTO
     public readonly string $name;
     public readonly string $email;
     public readonly string $role;
-    public string $token;
+    public string $token = '';
 
-    public function __construct(User $user, string $token)
+    public function __construct(User $user, string $token = '')
     {
         $this->id = $user->id;
         $this->name = $user->name;
@@ -23,12 +23,17 @@ class UserOutputDTO
 
     public function toArray(): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
+        $data = [
+            'id'    => $this->id,
+            'name'  => $this->name,
             'email' => $this->email,
-            'role' => $this->role,
-            'token' => $this->token,
+            'role'  => $this->role,
         ];
+
+        if ($this->token !== '') {
+            $data['token'] = $this->token;
+        }
+
+        return $data;
     }
 }
