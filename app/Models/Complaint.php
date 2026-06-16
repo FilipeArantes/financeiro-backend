@@ -9,6 +9,8 @@ class Complaint extends Model
 {
     use HasFactory;
 
+    protected $with = ['user'];
+
     protected $fillable = [
         'id_user',
         'id_payment',
